@@ -1,71 +1,69 @@
-import React, {Component} from 'react';
-import AddPerson from './AddPerson.js';
-import Total from './Total.js';
-import Person from './Person.js';
-import {getPersons} from './client.js';
+import React, { Component } from "react";
+import AddPerson from "./AddPerson.js";
+import Person from "./Person.js";
+import Total from "./Total.js";
+import { getPersons } from "./client.js";
 
 class App extends Component {
   state = {
     persons: []
   };
 
-  getPeopleList(){
-    getPersons().then(({data}) => {
-      this.setState({
-        persons: data
-      })
-    })
-  }
-  componentDidUpdate(prevState) {
-    if (this.state.persons === prevState.persons ) {
-      // At this point, we're in the "commit" phase, so it's safe to load the new data.
-      setTimeout(this.getPeopleList(), 100)
-    }
-  }
-
   componentDidMount() {
-    this.getPeopleList()
+    this.getPersons();
   }
 
+  getPersons() {
+    getPersons().then(({ data: persons }) => {
+      this.setState({
+        persons
+      });
+    });
+  }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.state.persons !== this.state.persons) {
-  //     this.getPeopleList()
-  //   }
-  // }
-  // componentWillUpdate() , componentDidUpdate { и похерячили консоль логиии
-  // componentDidUpdate() {
-  //   this.getPeopleList()
-  // }
+  addPerson(person) {
+    this.setState(
+      { persons: [...this.state.persons, person]}
+    );
+  }
+
+  updatePerson(person) {
+    const persons = this.state.persons.map(item => {
+      return item.id === person.id ? person : item;
+    });
+    this.setState({persons})
+  }
+
+  removePerson (person) {
+
+    // debugger;
+    const persons = this.state.persons.filter(item => {
+      console.log(person);
+      console.log(item);
+      return item.id !== person.id ? item : person
+    });
+
+    this.setState({persons})
+  }
 
   render() {
     const persons = this.state.persons;
-    {console.log(this.state.persons)}
     return (
       <div>
         <h2>Table</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>DOB</th>
-              <th>Location</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div>
+          <ul>
+            <li>First Name</li>
+            <li>Last Name</li>
+            <li>DOB</li>
+            <li>Location</li>
+            <li>Actions</li>
+          </ul>
           {persons.map((item) =>
-            <Person key={item.id}
-                    firstName={item.first_name}
-                    lastName={item.last_name}
-                    dob={item.dob}
-                    location={item.location}
-            />)}
-          </tbody>
-        </table>
-        {/*<Total/>*/}
-        <AddPerson/>
+            <Person removePerson={this.removePerson.bind(this)} updatePerson={this.updatePerson.bind(this)} key={item.id} person={item}/>)}
+        </div>
+        <Total persons={this.state.persons}/>
+        <AddPerson addPerson={this.addPerson.bind(this)}/>
       </div>
     );
   }

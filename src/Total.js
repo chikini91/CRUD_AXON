@@ -7,9 +7,15 @@ class Total extends Component {
     this.state = {};
   }
 
+  C
+
   render() {
+    const {location} = this.props.persons;
     return (
       <div>
+        {console.log(this.props)}
+        {console.log(location)}
+
         <h2>Summary</h2>
         <div>
           <span>Count of users from Kiev or kiev</span><br/>
