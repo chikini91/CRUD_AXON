@@ -9,23 +9,12 @@ class Total extends Component {
 
 
   render() {
-      // const location = this.props;
-      const persons = this.props.persons;
-      // const max = this.props.persons.reduce(function(prev, current) {
-      //     return (prev.first_name.length > current.first_name.length) ? prev.first_name : current.first_name
-      // });
-
     return (
       <div>
         <h2>Summary</h2>
         <div>
           <span>Count of users from Kiev or kiev</span><br/>
-          {/*<span>{max}</span><br/>*/}
-          <span style={{paddingLeft: '20px'}} >
-              {/*{location.persons.map(item =>*/}
-                  // item.first_name
-              // )}
-          </span>
+          <span style={{paddingLeft: '20px'}} />
         </div>
         <div>
           <span>Sum of three oldest user ages</span><br/>
@@ -33,7 +22,9 @@ class Total extends Component {
         </div>
         <div>
           <span>Longest string of first name + last name</span><br/>
-          <span style={{paddingLeft: '20px'}} >bla blawitch</span>
+          <span style={{paddingLeft: '20px', fontWeight: 'bold'}} >
+              {/*{this.props.longestName} {this.props.longestLastName}*/}
+              </span>
         </div>
       </div>
     );

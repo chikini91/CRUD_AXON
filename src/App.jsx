@@ -5,13 +5,32 @@ import Total from "./Total.js";
 import { getPersons } from "./client.js";
 
 class App extends Component {
-  state = {
-    persons: []
-  };
+   state = {
+        longestName: '',
+        longestLastName: '',
+        persons: [
+        ]
+   };
 
   componentDidMount() {
-    this.getPersons();
+        this.getPersons();
+        // this.longestValue ()
   }
+
+    // longestValue (){
+    //     const longestName = this.state.persons.reduce(function(current, next) {
+    //         return (current.length > next.length) ?
+    //             current.first_name : next.first_name
+    //         });
+    //
+    //     const longestLastName = this.stateate.persons.reduce(function(current, next) {
+    //         return (current.length > next.length) ?
+    //             current.last_name : next.last_name
+    //         });
+    //
+    //     this.setState({longestName});
+    //     this.setState({longestLastName})
+    // }
 
   getPersons() {
     getPersons().then(({ data: persons }) => {
@@ -44,14 +63,9 @@ class App extends Component {
 
   render() {
       const persons = this.state.persons;
+
       return (
       <div>
-        <h1>{
-            this.state.persons.reduce(function(prev, current) {
-                return (prev.first_name.length > current.first_name.length) ? prev.first_name : current.first_name
-            })
-        }</h1>
-          {console.log(persons)}
         <h2>Table</h2>
         <div>
           <ul>
@@ -64,7 +78,8 @@ class App extends Component {
           {persons.map((item) =>
             <Person removePerson={this.removePerson.bind(this)} updatePerson={this.updatePerson.bind(this)} key={item.id} person={item}/>)}
         </div>
-        <Total persons={this.state.persons}/>
+          {/*<Total longestName={this.state.longestName} longestLastName={this.state.longestLastName}/>*/}
+          <Total/>
         <AddPerson addPerson={this.addPerson.bind(this)}/>
       </div>
     );
