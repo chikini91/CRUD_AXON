@@ -34,22 +34,24 @@ class App extends Component {
     this.setState({persons})
   }
 
-  removePerson (person) {
-
-    // debugger;
+  removePerson (id) {
     const persons = this.state.persons.filter(item => {
-      console.log(person);
-      console.log(item);
-      return item.id !== person.id ? item : person
+      return item.id !== id
     });
 
     this.setState({persons})
   }
 
   render() {
-    const persons = this.state.persons;
-    return (
+      const persons = this.state.persons;
+      return (
       <div>
+        <h1>{
+            this.state.persons.reduce(function(prev, current) {
+                return (prev.first_name.length > current.first_name.length) ? prev.first_name : current.first_name
+            })
+        }</h1>
+          {console.log(persons)}
         <h2>Table</h2>
         <div>
           <ul>

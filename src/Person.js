@@ -17,9 +17,8 @@ class Person extends Component {
   }
 
   remove(person) {
-    // debugger;
     const {id} = this.props.person;
-    removePerson(id).then(({data: person}))
+    removePerson(id).then(({data: person}));
     this.props.removePerson(id)
   }
 

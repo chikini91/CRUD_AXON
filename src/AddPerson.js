@@ -77,11 +77,10 @@ class AddPerson extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    // debugger;
-    // console.log(this.props)
     const { first_name, last_name, dob, location } = this.state;
     const person = { first_name, last_name, dob, location};
     const {id} = this.props.person || '';
+
     if (id) {
       this.updatePerson(person, id);
       this.props.toggleForm();
@@ -93,7 +92,6 @@ class AddPerson extends Component {
   };
 
   render() {
-    // {(console.log(this.props))};
 
     return (
       <form onSubmit={this.onSubmit.bind(this)}>
