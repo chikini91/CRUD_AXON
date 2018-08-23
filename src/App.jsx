@@ -6,31 +6,12 @@ import { getPersons } from "./client.js";
 
 class App extends Component {
    state = {
-        longestName: '',
-        longestLastName: '',
-        persons: [
-        ]
+        persons: []
    };
 
   componentDidMount() {
         this.getPersons();
-        // this.longestValue ()
   }
-
-    // longestValue (){
-    //     const longestName = this.state.persons.reduce(function(current, next) {
-    //         return (current.length > next.length) ?
-    //             current.first_name : next.first_name
-    //         });
-    //
-    //     const longestLastName = this.stateate.persons.reduce(function(current, next) {
-    //         return (current.length > next.length) ?
-    //             current.last_name : next.last_name
-    //         });
-    //
-    //     this.setState({longestName});
-    //     this.setState({longestLastName})
-    // }
 
   getPersons() {
     getPersons().then(({ data: persons }) => {
@@ -61,14 +42,46 @@ class App extends Component {
     this.setState({persons})
   }
 
+
+    findValue(persons, prop){
+        const longestvalue = persons.map((person) => person[prop])
+            .sort((a,b) => b.length - a.length)[0]
+        return longestvalue || ''
+    }
+
+    threeOldestPerson() {
+        const thisPersons = this.state.persons.map(item => new Date(item.dob))
+            .sort((a,b) => a-b );
+        const threeFirstItems = thisPersons.slice(0,3).map((date) => new Date().getFullYear() - date.getFullYear());
+
+        const sumOfAge = threeFirstItems.reduce((a,b) => a + b, 0 );
+        return sumOfAge || '' ;
+    }
+
+    locationCount(searchTown){
+        let count = 0;
+        const location = this.state.persons.map((person) => person.location);
+        location.forEach((sity) => {
+            if (sity.toLowerCase().trim() === searchTown) {
+                count++;
+            }
+        });
+
+        return count || 0
+    }
+
   render() {
       const persons = this.state.persons;
+
+      const longestName = this.findValue(persons, 'first_name');
+      const longestLastName = this.findValue(persons, 'last_name');
+      const countsOfCities = this.locationCount('kiev');
 
       return (
       <div>
         <h2>Table</h2>
         <div>
-          <ul>
+          <ul style={{fontWeight : 'bold'}}>
             <li>First Name</li>
             <li>Last Name</li>
             <li>DOB</li>
@@ -78,8 +91,7 @@ class App extends Component {
           {persons.map((item) =>
             <Person removePerson={this.removePerson.bind(this)} updatePerson={this.updatePerson.bind(this)} key={item.id} person={item}/>)}
         </div>
-          {/*<Total longestName={this.state.longestName} longestLastName={this.state.longestLastName}/>*/}
-          <Total/>
+          <Total countsOfCities={countsOfCities} totalAge={this.threeOldestPerson()} longestName={longestName} longestLastName={longestLastName}/>
         <AddPerson addPerson={this.addPerson.bind(this)}/>
       </div>
     );

@@ -30,7 +30,7 @@ class Person extends Component {
           <button onClick={this.toggle.bind(this)}>Cancel</button>
         </div>
       </div> :
-      <div>
+      <div className='wrapper'>
         <PersonView person={this.props.person}/>
         <div>
           <button onClick={this.toggle.bind(this)}>Edit</button>
